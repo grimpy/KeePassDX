@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.kunzisoft.keepass.database.PwEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,20 @@ public class Entry implements Parcelable {
         this.password = "";
         this.url = "";
         this.customFields = new ArrayList<>();
+    }
+
+    public Entry(PwEntry entry) {
+        this.title = entry.getTitle();
+        this.username = entry.getUsername();
+        this.password = entry.getPassword();
+        this.url = entry.getUrl();
+        this.customFields = new ArrayList<>();
+        if (entry.containsCustomFields()) {
+            entry.getFields()
+                    .doActionToAllCustomProtectedField(
+                            (key, value) -> this.addCustomField(
+                                    new Field(key, value.toString())));
+        }
     }
 
     protected Entry(Parcel in) {

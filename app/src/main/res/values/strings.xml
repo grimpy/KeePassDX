@@ -65,6 +65,8 @@
     <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Title</string>
+    <string name="entry_totp">TOTP</string>
+    <string name="entry_totp_format">%1$s   (%2$s)</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
@@ -82,6 +84,7 @@
     <string name="error_load_database">Could not load your database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
+    <string name="error_invalid_TOTP">Invalid TOTP secret.</string>
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_not_number">Make \"Transformation rounds\" a number.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>

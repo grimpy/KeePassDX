@@ -33,17 +33,7 @@ public class EntrySelectionHelper {
             mReplyIntent = new Intent();
             Log.d(activity.getClass().getName(), "Reply entry selection");
 
-            Entry entryModel = new Entry();
-            entryModel.setTitle(entry.getTitle());
-            entryModel.setUsername(entry.getUsername());
-            entryModel.setPassword(entry.getPassword());
-            entryModel.setUrl(entry.getUrl());
-            if (entry.containsCustomFields()) {
-                entry.getFields()
-                        .doActionToAllCustomProtectedField(
-                                (key, value) -> entryModel.addCustomField(
-                                        new Field(key, value.toString())));
-            }
+            Entry entryModel = new Entry(entry);
 
             mReplyIntent.putExtra(
                     EXTRA_ENTRY_SELECTION_MODE,

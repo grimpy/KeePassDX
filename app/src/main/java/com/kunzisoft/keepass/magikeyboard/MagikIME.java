@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
 import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView;
 import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.totp.TotpSettings;
 
 import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
@@ -64,6 +65,7 @@ public class MagikIME extends InputMethodService
     private static final int KEY_PASSWORD = 510;
     private static final int KEY_URL = 520;
     private static final int KEY_FIELDS = 530;
+    private static final int KEY_TOTP = 540;
 
     private static Entry entryKey = null;
 
@@ -187,7 +189,9 @@ public class MagikIME extends InputMethodService
                     InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     assert imeManager != null;
                     assert getWindow().getWindow() != null;
-                    imeManager.switchToLastInputMethod(getWindow().getWindow().getAttributes().token);
+                    if (!imeManager.switchToLastInputMethod(getWindow().getWindow().getAttributes().token)) {
+                        imeManager.showInputMethodPicker();
+                    }
                 } catch (Exception e) {
                     Log.e(TAG, "Unable to switch to the previous IME", e);
                     InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -212,6 +216,14 @@ public class MagikIME extends InputMethodService
             case KEY_LOCK:
                 deleteEntryKey(this);
                 dismissCustomKeys();
+                break;
+            case KEY_TOTP:
+                if (entryKey != null) {
+                    TotpSettings settings = new TotpSettings(entryKey);
+                    if (settings.isConfigured()) {
+                        inputConnection.commitText(settings.getToken(), 1);
+                    }
+                }
                 break;
             case KEY_USERNAME:
                 if (entryKey != null) {
